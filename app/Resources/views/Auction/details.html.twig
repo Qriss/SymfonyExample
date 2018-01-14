@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+           {{ auction.title }}
+        </div>
+        <div class="panel-body">
+            <p>{{ auction.description }}</p>
+        </div>
+
+        <!-- List group -->
+        <ul class="list-group">
+            <li class="list-group-item">Cena: {{ auction.price}}</li>
+            <li class="list-group-item">Cena wywolawcza: {{ auction.startingPrice }}</li>
+            <li class="list-group-item">Zakonczenie aukcji: {{ auction.expiresAt | date("Y-m-d H:i:s") }}</li>
+        </ul>
+    </div>
+
+    <div class="panel panel-default">
+        <ul class="list-group">
+            {% for offer in auction.offers %}
+            <li class="list-group-item">Oferta {{ offer.price }} zl, zlozona {{ offer.createAt | date("Y-m-d H:i:s") }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a class="btn btn-default pull-left" href="{{ url('auction_index') }}">Powrot</a>
+
+
+    {{ form_start(buyForm, {"attr": {"class": "pull-left"}}) }}
+     {{ form_widget(buyForm.submit, {"attr": {"class": "btn-success"}}) }}
+     {{ form_rest(buyForm) }}
+    {{ form_end(buyForm) }}
+    <div class="clearfix"></div>
+
+    {{ form(bidForm, {"attr": {"novalidate": "novalidate"}}) }}
+
+{% endblock %}
